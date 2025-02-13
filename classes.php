@@ -89,8 +89,62 @@
         mysqli_close($cn);
         return $data;
       }
+      public static function store_like($post_id,$user_id){
+        $qry="INSERT INTO LIKES (post_id,user_id) VALUES ($post_id,$user_id)";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        mysqli_close($cn);
+        return $result;
+
+      }
+      public static function delete_like($post_id,$user_id){
+        $qry="DELETE FROM LIKES WHERE post_id=$post_id AND user_id=$user_id";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        mysqli_close($cn);
+        return $result;
+
+      }
+      public function my_likes($user_id){
+        $qry="SELECT * FROM LIKES WHERE user_id=$user_id";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+        mysqli_close($cn);
+        return $data;
+      }
+      public static function post_likes($post_id){
+        $qry="SELECT * FROM LIKES WHERE post_id=$post_id";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+        mysqli_close($cn);
+        return $data;
+      }
+      public static function home_like($post_id,$user_id){
+        $qry="SELECT * FROM LIKES WHERE post_id=$post_id AND user_id=$user_id";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+        mysqli_close($cn);
+        return $data;
+      }
+      public static function total_likes(){
+        $qry="SELECT * FROM LIKES ";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+        mysqli_close($cn);
+        return $data;
+      }
       public static function home_posts(){
-        $qry="SELECT * FROM POSTS JOIN USERS ON POSTS.user_id=USERS.id ORDER BY POSTS.created_at DESC";
+        $qry="SELECT * FROM USERS JOIN POSTS ON POSTS.user_id=USERS.id ORDER BY POSTS.created_at DESC";
         require_once("config.php");
         $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $result=mysqli_query($cn,$qry);

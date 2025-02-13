@@ -27,6 +27,8 @@ require_once("header.php");
               <th scope="col">Email</th>
               <th scope="col">Role</th>
               <th scope="col">Phone</th>
+              <th scope="col">posts</th>
+              <th scope="col">likes</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -40,6 +42,8 @@ require_once("header.php");
               <td><?=$users["email"]?></td>
               <td><?=$users["role"]?></td>
               <td><?=$users["phone"]?></td>
+              <td><?=count($user->my_posts($users["id"]))?></td>
+              <td><?=count($user->my_likes($users["id"]))?></td>
               <?php if($user->id!=$users["id"]){
                 ?>
               
