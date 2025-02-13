@@ -9,6 +9,7 @@ if($user->isBanned==1){
 
 }
  $allUsers=$user->get_all_users();
+ $posts=$user->total_posts();
 
 ?>
 <!doctype html>
@@ -254,13 +255,7 @@ if($user->isBanned==1){
                 <svg class="bi"><use xlink:href="#house-fill"/></svg>
                 Dashboard
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                Posts
-              </a>
-            </li>          
+            </li>     
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="../../handle_logout.php">
                 <svg class="bi"><use xlink:href="#door-closed"/></svg>

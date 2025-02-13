@@ -161,13 +161,23 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+    <div class="row">
     <?php
     foreach($myPosts as $post){
-
     ?>
         <div class="col-6 offset-3 my-3">
           <div class="card">
+          <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center p-3">
+                        <img style="width:50px;height:50px;border-radius:50px;" src="<?php echo(!empty($user->image))?$user->image:"http://bootdey.com/img/Content/avatar/avatar1.png"?>" alt=""> 
+                        <div class="ms-2 c-details">
+                            <h6 class="mb-0"><?=$user->name?></h6> <span><?=$post["created_at"]?></span>
+                        </div>
+                    </div>
+                </div>
             <?php
             if(!empty($post["image"])){
             ?>
@@ -178,6 +188,19 @@
             <div class="card-body">
               <h4 class="card-title"><?=$post["title"]?></h4>
               <p class="card-text"><?=$post["content"]?></p>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center">
+                      <form class="d-inline-block" action="handle_like.php" method="post">
+                        <input type="hidden" name="post_id" value="<?=$post["id"]?>">
+                        <input type="hidden" name="user_id" value="<?=$post["user_id"]?>">
+                        <button type="submit" class="btn btn-toggle align-items-center ms-2 "><?= (!empty($user->home_like($post["id"],$user->id)))?"<span style='color:green;'>liked</span>":"<span style='color:blue;'>like</span>" ?> </button>
+                        <?=count(user::post_likes($post["id"]))?>
+                      </form>
+                        <div class="d-flex flex-row muted-color">
+                          <?=count($user->get_post_comments($post["id"]))?>
+                        <span>&nbsp comments</span>
+                      </div><!--####################### -->
+                    </div>
             </div>
             <div class="row d-flex justify-content-center">
   <div class="col">
@@ -199,10 +222,9 @@
         <div class="card mb-4">
           <div class="card-body">
             <p><?=$comment["comment"]?></p>
-
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-row align-items-center">
-                <img src=" <?php echo(!empty($user->image))?$user->image:"http://bootdey.com/img/Content/avatar/avatar1.png" ?>" alt="avatar" width="25"
+                <img src=" <?php echo(!empty($comment["image"]))?$comment["image"]:"http://bootdey.com/img/Content/avatar/avatar1.png" ?>" alt="avatar" width="25"
                   height="25" />
                 <p class="small mb-0 ms-2"><?= $comment["name"]?></p>
               </div>
@@ -228,9 +250,10 @@
      }
     ?>
   </div>
+    </div>
+  </div>
 </main>
 
-eCommerce profil
 <?php
   require_once("footer.php")
 ?>

@@ -64,6 +64,7 @@
         mysqli_close($cn);
         return $data;
       }
+      
       public function update_profile_picture($user_image,$user_id){
         $qry="UPDATE USERS SET image = '$user_image' WHERE id=$user_id";
         require_once("config.php");
@@ -82,6 +83,15 @@
       }
       public function get_post_comments($post_id){
         $qry="SELECT * FROM COMMENTS JOIN USERS ON COMMENTS.user_id = USERS.id WHERE post_id = $post_id ORDER BY COMMENTS.created_at DESC LIMIT 10";
+        require_once("config.php");
+        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+        $result=mysqli_query($cn,$qry);
+        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+        mysqli_close($cn);
+        return $data;
+      }
+      public function get_user_comments($user_id){
+        $qry="SELECT * FROM COMMENTS JOIN USERS ON COMMENTS.user_id = USERS.id WHERE user_id = $user_id";
         require_once("config.php");
         $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
         $result=mysqli_query($cn,$qry);
@@ -116,6 +126,7 @@
         mysqli_close($cn);
         return $data;
       }
+
       public static function post_likes($post_id){
         $qry="SELECT * FROM LIKES WHERE post_id=$post_id";
         require_once("config.php");
@@ -134,15 +145,7 @@
         mysqli_close($cn);
         return $data;
       }
-      public static function total_likes(){
-        $qry="SELECT * FROM LIKES ";
-        require_once("config.php");
-        $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
-        $result=mysqli_query($cn,$qry);
-        $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
-        mysqli_close($cn);
-        return $data;
-      }
+
       public static function home_posts(){
         $qry="SELECT * FROM USERS JOIN POSTS ON POSTS.user_id=USERS.id ORDER BY POSTS.created_at DESC";
         require_once("config.php");
@@ -193,4 +196,41 @@
       mysqli_close($cn);
       return $result;
     }
+    public static function total_posts(){
+      $qry="SELECT * FROM POSTS ORDER BY created_at DESC";
+      require_once("config.php");
+      $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $result=mysqli_query($cn,$qry);
+      $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+      mysqli_close($cn);
+      return $data;
+    }
+    public static function total_likes(){
+      $qry="SELECT * FROM LIKES ";
+      require_once("config.php");
+      $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $result=mysqli_query($cn,$qry);
+      $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+      mysqli_close($cn);
+      return $data;
+    }
+    public function total_comments(){
+      $qry="SELECT * FROM COMMENTS ";
+      require_once("config.php");
+      $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $result=mysqli_query($cn,$qry);
+      $data=mysqli_fetch_all($result,MYSQLI_ASSOC);
+      mysqli_close($cn);
+      return $data;
+    }
+    public static function delete_post($post_id){
+      $qry="DELETE FROM POSTS WHERE id=$post_id";
+      require_once("config.php");
+      $cn=mysqli_connect(DB_HOST_NAME,DB_USER_NAME,DB_USER_PASSWORD,DB_NAME);
+      $result=mysqli_query($cn,$qry);
+      mysqli_close($cn);
+      return $result;
+
+    }
+
   }
